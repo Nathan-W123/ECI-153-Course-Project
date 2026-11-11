@@ -1,0 +1,22 @@
+# Course-provided inputs: kept local only (the repository is public).
+data/raw/*
+!data/raw/.gitkeep
+
+# Generated outputs
+results/*
+!results/.gitkeep
+
+# Gurobi licenses and logs -- licenses are personal and must never be committed
+*.lic
+gurobi.log
+*.mps
+*.lp
+
+# Python / Jupyter
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+venv/

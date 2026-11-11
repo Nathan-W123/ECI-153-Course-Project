@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "coursesched"
+version = "0.1.0"
+description = "Course scheduling as a 0-1 integer linear program (ECI 153 course project)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.0",
+    "openpyxl>=3.1",
+    "gurobipy>=11",
+    "matplotlib>=3.7",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7", "ruff", "jupyter", "nbformat", "nbconvert"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP"]
+ignore = ["E741"]  # I, H, G deliberately mirror the formulation's set names
+
+[tool.ruff.lint.isort]
+known-first-party = ["coursesched", "conftest"]
