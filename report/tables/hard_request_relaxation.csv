@@ -1,0 +1,11 @@
+scenario,dropped,target,kind,status,solver,objective,bound,runtime_s,tie_break_status,checker_feasible,checker_objective,group_overlaps,overlap_penalty,soft_violations,request_penalty,offprime_minutes,nonprime_components,nonprime_required,evening_components,early_8am_components,friday_components,busiest_day_minutes,quietest_day_minutes,max_instructor_day_minutes,student_conflicts,delta_offprime_minutes,delta_evening_components,delta_early_8am_components,delta_student_conflicts
+"V1, without REQ-W27-002",REQ-W27-002,ECI-193-LAB-ENV,FIXED_PATTERN,OPTIMAL,highs,0,0,0.56,OPTIMAL,True,0,0,0,0,0,1950,27,27,4,8,15,2630,1230,420,3,0,0,-2,-3
+"V1, without REQ-W27-003",REQ-W27-003,ECI-193-LAB-WATER,FIXED_PATTERN,OPTIMAL,highs,0,0,0.61,OPTIMAL,True,0,0,0,0,0,1950,27,27,5,9,19,2630,1530,390,6,0,1,-1,0
+"V1, without REQ-W27-004",REQ-W27-004,ECI-161-DIS-01,FIXED_PATTERN,OPTIMAL,highs,0,0,0.57,OPTIMAL,True,0,0,0,0,0,1940,27,27,3,12,17,2900,1590,390,7,-10,-1,2,1
+"V1, without REQ-W27-005",REQ-W27-005,ECI-130-DIS-01,FIXED_PATTERN,OPTIMAL,highs,0,0,0.75,OPTIMAL,True,0,0,0,0,0,1940,27,27,4,11,20,2230,1680,340,1,-10,0,1,-5
+"V1, without REQ-W27-006",REQ-W27-006,ECI-212A-LEC,FIXED_PATTERN,OPTIMAL,highs,0,0,0.56,OPTIMAL,True,0,0,0,0,0,1950,27,27,4,9,18,3170,1600,390,5,0,0,-1,-1
+"V1, without REQ-W27-007",REQ-W27-007,ECI-149N-DIS-01,FIXED_PATTERN,OPTIMAL,highs,0,0,0.51,OPTIMAL,True,0,0,0,0,0,1950,27,27,4,13,17,2500,1450,340,5,0,0,3,-1
+"V1, without REQ-W27-008",REQ-W27-008,ECI-149L-LAB-01,FIXED_PATTERN,OPTIMAL,highs,0,0,0.69,OPTIMAL,True,0,0,0,0,0,1840,27,27,5,12,19,2900,1550,340,3,-110,1,2,-3
+"V1, without REQ-W27-009",REQ-W27-009,ECI-281C-LEC,PREFER_DAYS,OPTIMAL,highs,0,0,0.59,OPTIMAL,True,0,0,0,0,0,1950,27,27,4,11,19,2930,1160,390,4,0,0,1,-2
+"V1, without REQ-W27-011",REQ-W27-011,ECI-292B-LEC,FIXED_PATTERN,OPTIMAL,highs,0,0,0.6,OPTIMAL,True,0,0,0,0,0,1940,27,27,6,12,20,2880,1020,390,3,-10,2,2,-3
+"V1, without REQ-W27-014",REQ-W27-014,ECI-140B-LEC,PREFER_TIME_WINDOW,OPTIMAL,highs,0,0,0.6,OPTIMAL,True,0,0,0,0,0,1950,27,27,7,10,19,2490,1630,250,8,0,3,0,2

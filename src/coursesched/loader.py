@@ -148,7 +148,7 @@ def is_yes(value: Any) -> bool:
 
 
 def split_instructors(text: str) -> tuple[str, ...]:
-    """'Bischel/Bombardelli' -> ('Bischel', 'Bombardelli')."""
+    """'Smith/Jones' -> ('Smith', 'Jones')."""
     return tuple(name.strip() for name in re.split(r"[/,;]+", text) if name.strip())
 
 

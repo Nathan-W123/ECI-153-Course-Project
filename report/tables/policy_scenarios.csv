@@ -1,0 +1,12 @@
+scenario,dropped_requests,status,solver,objective,bound,runtime_s,tie_break_status,checker_feasible,checker_objective,group_overlaps,overlap_penalty,soft_violations,request_penalty,offprime_minutes,nonprime_components,nonprime_required,evening_components,early_8am_components,friday_components,busiest_day_minutes,quietest_day_minutes,max_instructor_day_minutes,student_conflicts
+"Baseline: day 08:00-20:00, prime 09:00-16:00",,OPTIMAL,highs,0,0,0.62,OPTIMAL,True,0,0,0,0,0,1950,27,27,4,10,19,2730,1500,390,6
+Prime 08:00-17:00,,OPTIMAL,highs,0,0,0.55,OPTIMAL,True,0,0,0,0,0,1830,27,27,5,5,13,2460,1010,280,6
+Prime 09:00-17:00,,OPTIMAL,highs,0,0,0.72,OPTIMAL,True,0,0,0,0,0,1830,27,27,2,11,20,2750,1240,390,8
+Prime 09:00-18:00,,OPTIMAL,highs,0,0,0.57,OPTIMAL,True,0,0,0,0,0,1730,27,27,14,13,20,2400,1270,340,3
+Prime 10:00-15:00,,OPTIMAL,highs,0,0,0.6,OPTIMAL,True,0,0,0,0,0,2110,27,27,3,5,19,2560,1550,390,8
+Day ends 19:00,REQ-W27-008,OPTIMAL,highs,0,0,0.57,OPTIMAL,True,0,0,0,0,0,1840,27,27,5,8,17,2560,1390,390,5
+Day ends 18:00,REQ-W27-008,OPTIMAL,highs,0,0,0.48,OPTIMAL,True,0,0,0,0,0,1840,27,27,0,14,21,2330,1310,390,7
+Day ends 17:00,"REQ-W27-007, REQ-W27-008",OPTIMAL,highs,60,60,0.58,OPTIMAL,True,60,0,0,1,60,1680,27,27,0,13,15,2420,1470,340,5
+No Friday classes,,OPTIMAL,highs,0,0,0.3,OPTIMAL,True,0,0,0,0,0,1950,27,27,2,14,2,3180,340,340,11
+"No Friday, day ends 18:00",REQ-W27-008,OPTIMAL,highs,0,0,0.29,OPTIMAL,True,0,0,0,0,0,1840,27,27,0,13,3,2950,510,390,10
+"No Friday, day 08:00-16:00","REQ-W27-007, REQ-W27-008",OPTIMAL,highs,140,140,0.18,OPTIMAL,True,140,0,0,2,140,1660,27,27,0,27,3,2780,510,340,15

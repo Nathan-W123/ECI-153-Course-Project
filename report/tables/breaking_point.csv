@@ -1,0 +1,10 @@
+scenario,prime_end,regular_rate,status,solver,objective,bound,runtime_s,tie_break_status,checker_feasible,checker_objective,group_overlaps,overlap_penalty,soft_violations,request_penalty,offprime_minutes,nonprime_components,nonprime_required,evening_components,early_8am_components,friday_components,busiest_day_minutes,quietest_day_minutes,max_instructor_day_minutes,student_conflicts
+"prime 08:00-18:00, regular 0.35",18:00,0.35,OPTIMAL,highs,0,0,0.31,,True,0,0,0,0,0,3200,29,27,29,5,19,2790,1380,280,11
+"prime 08:00-18:00, regular 0.5",18:00,0.5,OPTIMAL,highs,0,0,0.37,,True,0,0,0,0,0,3970,34,34,34,6,22,2400,1550,280,10
+"prime 08:00-18:00, regular 0.6",18:00,0.6,TIME_LIMIT,highs,500,300,120.05,,True,500,5,500,0,0,5290,42,42,42,2,16,2620,1340,220,23
+"prime 08:00-19:00, regular 0.35",19:00,0.35,OPTIMAL,highs,0,0,0.31,,True,0,0,0,0,0,2020,30,27,31,5,15,2530,1290,280,11
+"prime 08:00-19:00, regular 0.5",19:00,0.5,OPTIMAL,highs,200,200,4.08,,True,200,2,200,0,0,2560,35,34,35,6,18,2470,1730,250,12
+"prime 08:00-19:00, regular 0.6",19:00,0.6,TIME_LIMIT,highs,1100,680,120.05,,True,1100,9,1100,0,0,3320,42,42,42,3,16,2600,1100,330,25
+"prime 08:00-19:30, regular 0.35",19:30,0.35,OPTIMAL,highs,0,0,0.31,,True,0,0,0,0,0,1170,27,27,28,4,20,2440,1480,330,6
+"prime 08:00-19:30, regular 0.5",19:30,0.5,OPTIMAL,highs,200,200,1.07,,True,200,2,200,0,0,1470,35,34,35,7,18,2590,1440,280,13
+"prime 08:00-19:30, regular 0.6",19:30,0.6,OPTIMAL,highs,1100,1100,12.77,,True,1100,9,1100,0,0,1980,42,42,42,1,12,3050,960,390,31

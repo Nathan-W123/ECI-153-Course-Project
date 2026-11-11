@@ -1,0 +1,3 @@
+scenario,status,solver,objective,bound,runtime_s,tie_break_status,checker_feasible,checker_objective,group_overlaps,overlap_penalty,soft_violations,request_penalty,offprime_minutes,nonprime_components,nonprime_required,evening_components,early_8am_components,friday_components,busiest_day_minutes,quietest_day_minutes,max_instructor_day_minutes,student_conflicts
+"validation, first optimum",OPTIMAL,gurobi,320,320,0,,True,320,3,300,1,20,220,3,3,2,0,5,490,0,390,3
+"validation, tie-break: off-prime minutes",OPTIMAL,gurobi,320,320,0,OPTIMAL,True,320,3,300,1,20,170,3,3,1,1,5,490,0,390,3

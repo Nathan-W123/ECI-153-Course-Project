@@ -1,0 +1,4 @@
+scenario,request_id,component_id,weight
+Day ends 17:00,REQ-W27-013,ECI-251-LEC,3
+"No Friday, day 08:00-16:00",REQ-W27-001,ECI-268-LEC,4
+"No Friday, day 08:00-16:00",REQ-W27-013,ECI-251-LEC,3

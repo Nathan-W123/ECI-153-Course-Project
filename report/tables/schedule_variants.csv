@@ -1,0 +1,6 @@
+scenario,status,solver,objective,bound,runtime_s,tie_break_status,checker_feasible,checker_objective,group_overlaps,overlap_penalty,soft_violations,request_penalty,offprime_minutes,nonprime_components,nonprime_required,evening_components,early_8am_components,friday_components,busiest_day_minutes,quietest_day_minutes,max_instructor_day_minutes,student_conflicts
+"V1 model, first optimum",OPTIMAL,highs,0,0,0.4,,True,0,0,0,0,0,5390,41,27,15,8,21,2720,1090,280,10
+V1 + tie-break: off-prime minutes,OPTIMAL,highs,0,0,0.69,OPTIMAL,True,0,0,0,0,0,1950,27,27,4,10,19,2730,1500,390,6
+V1 + tie-break: evening minutes,OPTIMAL,highs,0,0,0.58,OPTIMAL,True,0,0,0,0,0,2660,28,27,1,15,17,2470,1330,280,7
++ section-aware groups,OPTIMAL,highs,0,0,1.25,OPTIMAL,True,0,0,0,0,0,1950,27,27,6,11,16,2710,1400,420,0
++ section-aware + V2 patterns (recommended),OPTIMAL,highs,0,0,0.99,OPTIMAL,True,0,0,0,0,0,1990,27,27,5,11,19,2330,1720,340,0

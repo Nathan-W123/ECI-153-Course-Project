@@ -1,0 +1,9 @@
+scenario,dropped,target,kind,status,solver,objective,bound,runtime_s,tie_break_status,checker_feasible,checker_objective,group_overlaps,overlap_penalty,soft_violations,request_penalty,offprime_minutes,nonprime_components,nonprime_required,evening_components,early_8am_components,friday_components,busiest_day_minutes,quietest_day_minutes,max_instructor_day_minutes,student_conflicts,delta_objective
+"No Friday, day 08:00-16:00, without REQ-W27-002",REQ-W27-002,ECI-193-LAB-ENV,FIXED_PATTERN,OPTIMAL,highs,140,140,0.08,,True,140,0,0,2,140,2300,30,27,0,30,3,3230,390,450,17,0
+"No Friday, day 08:00-16:00, without REQ-W27-003",REQ-W27-003,ECI-193-LAB-WATER,FIXED_PATTERN,OPTIMAL,highs,140,140,0.08,,True,140,0,0,2,140,2270,30,27,0,30,2,2800,340,340,15,0
+"No Friday, day 08:00-16:00, without REQ-W27-004",REQ-W27-004,ECI-161-DIS-01,FIXED_PATTERN,OPTIMAL,highs,140,140,0.09,,True,140,0,0,2,140,2140,29,27,0,29,4,3070,440,450,14,0
+"No Friday, day 08:00-16:00, without REQ-W27-005",REQ-W27-005,ECI-130-DIS-01,FIXED_PATTERN,OPTIMAL,highs,140,140,0.09,,True,140,0,0,2,140,2210,30,27,0,30,4,3030,560,280,10,0
+"No Friday, day 08:00-16:00, without REQ-W27-006",REQ-W27-006,ECI-212A-LEC,FIXED_PATTERN,OPTIMAL,highs,140,140,0.12,,True,140,0,0,2,140,2260,31,27,0,31,2,2730,340,450,18,0
+"No Friday, day 08:00-16:00, without REQ-W27-009",REQ-W27-009,ECI-281C-LEC,PREFER_DAYS,OPTIMAL,highs,140,140,0.08,,True,140,0,0,2,140,2310,30,27,0,30,2,2880,340,390,15,0
+"No Friday, day 08:00-16:00, without REQ-W27-011",REQ-W27-011,ECI-292B-LEC,FIXED_PATTERN,OPTIMAL,highs,140,140,0.12,,True,140,0,0,2,140,2200,30,27,0,30,3,2780,390,280,14,0
+"No Friday, day 08:00-16:00, without REQ-W27-014",REQ-W27-014,ECI-140B-LEC,PREFER_TIME_WINDOW,OPTIMAL,highs,140,140,0.09,,True,140,0,0,2,140,2300,29,27,0,29,2,2780,340,340,15,0
