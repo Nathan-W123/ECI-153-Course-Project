@@ -107,13 +107,16 @@ def plot_weekly(
 
     for ax in list(axes.flat)[len(groups):]:
         ax.set_visible(False)
+    # Title on the first line, legend on its own line below it, then the panels.
+    top = 1.0
+    if title:
+        fig.text(0.5, 1 - 0.25 / fig.get_figheight(), title, ha="center", va="top", fontsize=13, color=INK)
+        top -= 0.5 / fig.get_figheight()
     handles = [Rectangle((0, 0), 1, 1, color=c) for c in TYPE_COLORS.values()]
     fig.legend(handles, [t.title() for t in TYPE_COLORS], loc="upper center", ncol=3, frameon=False,
-               labelcolor=INK_SECONDARY)
-    if title:
-        fig.suptitle(title, y=0.995, color=INK, fontsize=13)
+               labelcolor=INK_SECONDARY, bbox_to_anchor=(0.5, top))
     fig.text(0.5, 0.005, "Shaded band = prime time", ha="center", fontsize=9, color=MUTED)
-    fig.tight_layout(rect=(0, 0.01, 1, 0.965))
+    fig.tight_layout(rect=(0, 0.01, 1, top - 0.45 / fig.get_figheight()))
     return fig
 
 
