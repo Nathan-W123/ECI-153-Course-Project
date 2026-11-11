@@ -59,10 +59,12 @@ This is the regression test in `tests/test_model.py`. If overlap checks use `<=`
 
 These inactive requests and notes are good candidates for model extensions:
 
-| Item | What the data says |
-|---|---|
-| REQ-W27-015 | ECI 115 lecture and lab should form two continuous blocks (adjacency) |
-| REQ-W27-018 | ECI 193's 2 lecture hours are approximated as one 110-minute block |
-| REQ-W27-022, ECI 140B | an accepted WF 2–4 PM pattern is not a LEC4 pattern |
-| REQ-W27-009/010, ECI 281C | the approved 3–5 PM start is non-standard |
-| ECI 191C, 295A | weekly-meeting structure inferred from the final schedule |
+| Item | What the data says | Status |
+|---|---|---|
+| REQ-W27-022, ECI 140B | an accepted WF 2–4 PM pattern is not a LEC4 pattern | **Handled** by the custom-pattern extension (WF 14:10–16:00) |
+| REQ-W27-009/010, ECI 281C | the approved 3–5 PM start is non-standard | **Handled** by the custom-pattern extension (MW 15:00–16:50) |
+| REQ-W27-015 | ECI 115 lecture and lab should form two continuous blocks (adjacency) | Future work |
+| REQ-W27-018 | ECI 193's 2 lecture hours are approximated as one 110-minute block | Future work |
+| ECI 191C, 295A | weekly-meeting structure inferred from the final schedule | Kept as in the data |
+
+See `analysis.w27_v2_scenario` and Section 4.3 of the report.

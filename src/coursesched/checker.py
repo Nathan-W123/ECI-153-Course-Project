@@ -70,6 +70,7 @@ def check_schedule(
     request_weight: float | None = None,
     np_rates: Mapping[str, float] | None = None,
     check_families: bool = True,
+    section_aware_groups: bool = False,
 ) -> CheckReport:
     """Audit every hard rule and recompute the objective for ``meetings`` (component -> block)."""
     W_O = inputs.setting_float("overlap_weight") if overlap_weight is None else overlap_weight
@@ -92,7 +93,10 @@ def check_schedule(
     for cid, block in scheduled.items():
         if block.start < day_start or block.end > day_end:
             bad(f"{cid} meets outside the scheduling day")
-        if check_families and not _fits_family(comps[cid].family, block):
+        # An approved hard FIXED_PATTERN request also defines a valid meeting (custom-pattern extension).
+        approved = any(r.hard and r.kind == "FIXED_PATTERN" and applies(r, comps[cid], inputs.group_members)
+                       and not violates(r, block) for r in inputs.requests)
+        if check_families and not (_fits_family(comps[cid].family, block) or approved):
             bad(f"{cid} meeting {block.days} {block.start}-{block.end} is not a {comps[cid].family} pattern")
 
     occ = {cid: _occupancy(block) for cid, block in scheduled.items()}
@@ -140,11 +144,9 @@ def check_schedule(
             bad(f"non-prime quota {dept}/{size}: {achieved} < {required}")
 
     # Conflict-group overlaps (penalized, not forbidden).
-    for gid, members in inputs.group_members.items():
-        weight = inputs.group_weight[gid]
-        for a, b in combinations(members, 2):
-            if a in occ and b in occ and occ[a] & occ[b]:
-                report.group_overlaps.append((gid, a, b, weight))
-                report.overlap_penalty += W_O * weight
+    for gid, a, b in inputs.group_pairs(section_aware=section_aware_groups):
+        if a in occ and b in occ and occ[a] & occ[b]:
+            report.group_overlaps.append((gid, a, b, inputs.group_weight[gid]))
+            report.overlap_penalty += W_O * inputs.group_weight[gid]
 
     return report

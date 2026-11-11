@@ -1,6 +1,7 @@
 pandas>=2.0
 openpyxl>=3.1
 gurobipy>=11
+highspy>=1.7
 matplotlib>=3.7
 pytest>=7
 jupyter

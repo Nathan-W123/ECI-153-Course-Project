@@ -83,3 +83,50 @@ $y$ and $o$ only need lower bounds: because they are minimized, they are 0 unles
 64 components, 231 generated patterns, 2,036 assignment variables, 4 soft cases, 117 group pairs.
 In total about 2,160 binary variables and 17,900 constraints, which exceeds Gurobi's size-limited pip
 license. The 7-component validation dataset has 187 variables and 223 constraints.
+
+## Extensions (beyond the course formulation)
+
+All extensions are off by default, so the base model is exactly the one above.
+
+### Lexicographic tie-break (`model.tie_break`)
+
+When many schedules share the optimal $Z^*$, a second stage picks among them:
+
+$$
+\min \sum_{c}\sum_{p\in P_c} s_p\, x_{cp}
+\quad\text{s.t. (C1)–(C7) and}\quad
+W_O \sum_j w_j \sum o_{jcc'} + W_V \sum_v w_v y_v \;\le\; Z^*
+$$
+
+The default cost $s_p$ is the weekly number of minutes pattern $p$ spends outside the prime window
+(`offprime_minutes`). This moves the meetings that must be non-prime to the edges of the day,
+08:00 or just after 16:00, instead of late evening. The alternative `evening_minutes` counts weekly
+minutes after 17:00.
+
+### Section-aware conflict groups (`section_aware_groups=True`)
+
+The base groups contain lectures only. A student taking two grouped courses also attends one
+lab/discussion section of each. The extension replaces $\mathcal{G}_j$ by
+
+$$
+\mathcal{G}_j^{+} = \{\{u,v\} : u \in F(c),\ v \in F(c'),\ \{c,c'\} \in \mathcal{G}_j\},\qquad F(c) = \{c\} \cup \{\text{children of } c\}
+$$
+
+with the same weight $w_j$, keeping constraint (C5) and the objective unchanged. Pairs inside one family
+are never added: C3 already separates a parent and its child, and sibling sections are alternatives.
+For multi-section courses this is conservative, because it asks every section to avoid the other
+course when a student needs only one free section. The exact student-level measure is
+`analysis.student_conflicts`.
+
+### Custom patterns (`custom_patterns=True`)
+
+A hard `FIXED_PATTERN` request whose days/start/end match no generated pattern of the component's family
+adds that exact meeting as an extra element of $P_c$, for that component only. Without the extension such
+a request leaves $P_c=\emptyset$. The independent checker treats a meeting that matches an approved fixed
+request as a valid pattern.
+
+### Solver fallback
+
+The model is always built with gurobipy. `solve(..., solver="auto")` uses Gurobi and, when the installed
+license is size-limited, writes the model to MPS and solves it with HiGHS. The column order is checked by
+name, so the same variables map back to the same schedule.

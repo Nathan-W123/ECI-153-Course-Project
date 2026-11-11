@@ -16,6 +16,7 @@ from __future__ import annotations
 import re
 from collections import Counter, defaultdict
 from dataclasses import dataclass, field
+from itertools import combinations
 from pathlib import Path
 from typing import Any
 
@@ -116,6 +117,30 @@ class InputData:
 
     def setting_float(self, key: str) -> float:
         return float(self.settings[key])
+
+    def group_pairs(self, section_aware: bool = False) -> list[tuple[str, str, str]]:
+        """(group, c, c') pairs whose overlap is penalized.
+
+        Default: every pair of members of each conflict group (the formulation's G_j).
+        ``section_aware=True`` (model extension) also pairs each member's labs/discussions
+        with the other member and its sections, so a student can take both courses.
+        Pairs inside one member's own family are never added: C3 already separates a
+        parent from its children, and sibling sections are alternatives.
+        """
+        children: dict[str, list[str]] = defaultdict(list)
+        for cid, comp in self.components.items():
+            if comp.parent_id:
+                children[comp.parent_id].append(cid)
+        pairs: dict[tuple[str, str, str], None] = {}
+        for gid, members in self.group_members.items():
+            for a, b in combinations(members, 2):
+                family_a = [a, *children[a]] if section_aware else [a]
+                family_b = [b, *children[b]] if section_aware else [b]
+                for u in family_a:
+                    for v in family_b:
+                        if u != v and (gid, v, u) not in pairs:
+                            pairs[(gid, u, v)] = None
+        return list(pairs)
 
 
 def is_yes(value: Any) -> bool:

@@ -19,7 +19,7 @@ from itertools import combinations
 from typing import Any
 
 from .loader import Component, InputData
-from .patterns import Pattern, ceil_fraction, generate_patterns, overlaps
+from .patterns import Pattern, ceil_fraction, generate_patterns, is_nonprime, overlaps, pattern_id
 from .rules import Request, applies, violates
 
 REGULAR, LARGE = "regular", "large"
@@ -60,6 +60,8 @@ class ModelData:
     np_required: dict[tuple[str, str], int]
     np_rates: dict[str, float]
     pair_space: dict[tuple[str, str], int] = field(default_factory=dict)  # |P_c| * |P_c'|
+    custom_patterns: dict[str, list[str]] = field(default_factory=dict)  # component -> extra pattern ids
+    section_aware_groups: bool = False
 
     @property
     def components(self) -> dict[str, Component]:
@@ -101,18 +103,28 @@ def build_model_data(
     inputs: InputData,
     *,
     np_rates: dict[str, float] | None = None,
+    custom_patterns: bool = False,
+    section_aware_groups: bool = False,
     strict: bool = True,
 ) -> ModelData:
     """Build every set and parameter the MILP needs.
 
     ``np_rates`` overrides the non-prime fractions, e.g. ``{"regular": 0.4, "large": 0.3}``
     (useful for sensitivity analysis). With ``strict=True`` validation errors abort.
+
+    ``custom_patterns=True`` is a model extension: a hard FIXED_PATTERN request whose
+    days/start/end match no standard pattern of the component's family adds that exact
+    meeting as an extra candidate for that component only (e.g. an approved WF 14:10-16:00
+    lecture, which LEC4 does not generate). Without it such a request empties P_c.
+
+    ``section_aware_groups=True`` is a second extension: conflict groups also keep the
+    labs/discussions of grouped courses apart (see ``InputData.group_pairs``).
     """
     if strict and inputs.errors():
         raise InputValidationError(f"Input workbook has data errors: {inputs.errors()}")
 
     components = inputs.components
-    patterns = generate_patterns(
+    patterns: dict[str, Pattern] = generate_patterns(
         day_start=inputs.setting_minutes("day_start"),
         day_end=inputs.setting_minutes("day_end"),
         prime_start=inputs.setting_minutes("prime_start"),
@@ -127,10 +139,24 @@ def build_model_data(
     applicable: dict[str, list[Request]] = {}
     hard_removals: dict[str, dict[str, int]] = {}
     soft_cases: dict[str, SoftCase] = {}
+    custom: dict[str, list[str]] = {}
+    day_start, day_end = inputs.setting_minutes("day_start"), inputs.setting_minutes("day_end")
+    prime_start, prime_end = inputs.setting_minutes("prime_start"), inputs.setting_minutes("prime_end")
     for cid, comp in components.items():
         reqs = [r for r in inputs.requests if applies(r, comp, inputs.group_members)]
         applicable[cid] = reqs
         candidates = list(by_family[comp.family])
+        if custom_patterns:
+            for req in reqs:
+                exact = req.hard and req.kind == "FIXED_PATTERN" and req.start is not None and req.end is not None
+                if (not exact or not (day_start <= req.start < req.end <= day_end)
+                        or any(not violates(req, patterns[p]) for p in candidates)):
+                    continue
+                pid = "CUSTOM_" + pattern_id(comp.family, req.days, req.start, req.end)
+                patterns[pid] = Pattern(pid, comp.family, req.days, req.start, req.end,
+                                        is_nonprime(req.start, req.end, prime_start, prime_end))
+                candidates.append(pid)
+                custom.setdefault(cid, []).append(pid)
         removed: dict[str, int] = {}
         for req in (r for r in reqs if r.hard):
             kept = [p for p in candidates if not violates(req, patterns[p])]
@@ -163,8 +189,7 @@ def build_model_data(
     I = sorted({tuple(sorted(pair)) for cids in by_instructor.values() for pair in combinations(cids, 2)})
     H = [(cid, comp.parent_id) for cid, comp in components.items()
          if comp.parent_id and comp.parent_id in components]
-    G = [(gid, a, b) for gid, members in inputs.group_members.items()
-         for a, b in combinations(members, 2)]
+    G = inputs.group_pairs(section_aware=section_aware_groups)
 
     # ---- Local overlap sets Omega_cc' (computed once per pair, reused by C2/C3/C5) ----
     omega_cache: dict[tuple[str, str], list[tuple[str, str]]] = {}
@@ -220,4 +245,6 @@ def build_model_data(
         np_required=np_required,
         np_rates=rates,
         pair_space=pair_space,
+        custom_patterns=custom,
+        section_aware_groups=section_aware_groups,
     )
